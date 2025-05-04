@@ -10,7 +10,6 @@ from scipy import interpolate
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
-from sklearn.decomposition import PCA
 from matplotlib import cm
 # Plots
 def plot(points,show=False,mark=1):

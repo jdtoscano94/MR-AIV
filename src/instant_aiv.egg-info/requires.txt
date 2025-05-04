@@ -1,0 +1,10 @@
+numpy
+scipy
+pandas
+matplotlib
+optax
+h5py
+pyDOE
+tqdm
+scikit-learn
+opencv-python

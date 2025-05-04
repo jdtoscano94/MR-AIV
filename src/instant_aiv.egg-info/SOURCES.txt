@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+setup.cfg
+src/instant_aiv/__init__.py
+src/instant_aiv.egg-info/PKG-INFO
+src/instant_aiv.egg-info/SOURCES.txt
+src/instant_aiv.egg-info/dependency_links.txt
+src/instant_aiv.egg-info/requires.txt
+src/instant_aiv.egg-info/top_level.txt
+src/instant_aiv/manage/__init__.py
+src/instant_aiv/manage/dataloader.py
+src/instant_aiv/manage/plots.py
+src/instant_aiv/models/NNpp.py
+src/instant_aiv/models/__init__.py
+src/instant_aiv/models/metrics.py
