@@ -8,6 +8,7 @@ import tqdm
 import h5py
 import matplotlib.tri as tri
 import jax.numpy as jnp
+from jax import jit, grad, vmap, value_and_grad,jvp
 import jax
 import importlib.util
 import logging 
@@ -821,3 +822,83 @@ def remove_overlapping_points(base_data, remove_data, tolerance, chunk_size=1000
     all_points=np.arange(len(base_data))
     indices_txyzc = np.setdiff1d(all_points, indices_txyzc_C)   
     return indices_txyzc
+
+
+    
+def filter_lognormal_nan(data,key='a', k=3):
+    data = np.array(data, dtype=np.float64)  # Ensure it's a NumPy array
+    log_data = np.log(data+1e-12)  # Transform to log-space
+
+    mu_log = np.nanmean(log_data)
+    min_log = np.nanmin(log_data)
+    sigma_log = np.nanstd(log_data)
+    # Define filtering bounds
+    if key=='c':
+        lower_bound = 0.1
+    else:
+        lower_bound = mu_log - sigma_log
+
+    upper_bound = mu_log + k * sigma_log
+
+    # Identify outliers and replace with NaN
+    if key=='c':
+        mask = (data >= lower_bound) & (log_data <= upper_bound)
+    else:
+        mask = (log_data >= lower_bound) & (log_data <= upper_bound)
+    
+    filtered_data = np.where(mask, data, np.nan)
+    return filtered_data
+
+# =============================
+# PDF & Plotting Functions
+# =============================
+def get_pdf(u_hist, bins=30):
+    hist, bins = np.histogram(u_hist, bins=bins, density=True)
+    return hist, bins
+
+def get_colors_plot(cmap='Spectral', n_colors=5):
+    n_colors = n_colors * 2
+    cmap = plt.get_cmap(cmap)
+    colors = [cmap(i) for i in np.linspace(0, 1, n_colors)]
+    return colors[:n_colors // 4] + colors[3 * n_colors // 4:]
+
+def plot_pdf_fields(all_pred, bins=100, time_img=0, figsize=(12, 12), x_lims=None, y_lims=None, mean_vals=None, save_path=None):
+    keys = list(all_pred.keys())
+    colors = get_colors_plot(n_colors=len(keys))
+    
+    fig, axs = plt.subplots(2, 3, figsize=figsize)
+    axs = axs.flatten()
+    
+    for i, key in enumerate(keys):
+        data = np.array(all_pred[key]).flatten()
+        pdf, bins_arr = get_pdf(data[np.isfinite(data)], bins=bins)  # Ignore NaNs in PDF computation
+
+        axs[i].plot(bins_arr[:-1], pdf, color=colors[i], label=f'{key}')
+        axs[i].fill_between(bins_arr[:-1], pdf, color=colors[i], alpha=0.3)
+        axs[i].set_xlabel(key)
+        axs[i].set_ylabel('PDF')
+        axs[i].set_yscale('log')  
+        axs[i].set_xscale('log')  
+        axs[i].set_title(f't={time_img:.2f} min')
+        axs[i].legend(loc='upper left')
+
+        # Add vertical dashed line for mean
+        if mean_vals and key in mean_vals:
+            axs[i].axvline(mean_vals[key], color='k', linestyle='dashed', linewidth=2, label='Mean')
+            axs[i].legend(loc='upper left')
+
+        # Apply consistent x-axis and y-axis limits
+        if x_lims and key in x_lims:
+            axs[i].set_xlim(x_lims[key])
+        if y_lims:
+            axs[i].set_ylim(y_lims)
+
+    # Hide unused subplots if fewer than 6 fields
+    for j in range(len(keys), len(axs)):
+        fig.delaxes(axs[j])
+    
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path)
+    plt.close()
