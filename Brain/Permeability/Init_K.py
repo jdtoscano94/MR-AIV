@@ -929,67 +929,97 @@ plt.savefig(images_path+'Final_results.png')
 plt.show()
 
 
-# %%
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-epsilon = 1e-10 # Adjust if needed
+# Extract data
+t, x, y, z = dataset[key][:,0], dataset[key][:,1], dataset[key][:,2], dataset[key][:,3]
+
+# Calculate midplane values
+x_midplane = np.median(x)
+y_midplane = np.median(y)
+z_midplane = np.median(z)
+
+# Define tolerance for midplane slice thickness
+tolerance = 0.1  # Adjust based on your dataset's spread and units
+
+# Define filters for each midplane
+x_midplane_filter = np.abs(x - x_midplane) <= tolerance
+y_midplane_filter = np.abs(y - y_midplane) <= tolerance
+z_midplane_filter = np.abs(z - z_midplane) <= tolerance
+
+# --- Prepare variables for plotting ---
+# Using your exact original calculations
 variables = [
-    np.log10(np.maximum(K_pred, epsilon)),
-    np.log10(np.maximum(K_real, epsilon)),
-    np.log10(np.maximum(np.abs(K_pred - K_real), epsilon)) / np.log10(np.maximum(K_real, epsilon+1e-9)) # Added epsilon to denominator base
+    np.log10(K_pred),
+    np.log10(K_real),
+    np.log10(np.abs(K_pred - K_real)) / np.log10(K_real) # Your original error metric calculation
 ]
-variable_names = ['log(K)-Pred', 'log(K)-Real', 'log(K)-Error Ratio'] # Adjusted Error name
-midplane_names = ["X Midplane", "Y Midplane", "Z Midplane"]
-midplane_filters = [x_midplane_filter, y_midplane_filter, z_midplane_filter]
+# Using variable names consistent with the 3 variables calculated
+variable_names = ['log(K)-Pred','log(K)-Real','log(K)-Error']
 
-# --- Create the 3x3 Plot Grid ---
-# Create figure and axes objects. `axes` is a 2D array (3 rows, 3 columns)
-fig, axes = plt.subplots(3, 3, figsize=(15, 15)) # Adjust figsize as needed
+num_variables = len(variables)
+num_midplanes = 3 # X, Y, Z midplanes
 
-# --- Loop through variables (rows) and midplanes (columns) ---
-for i, var_data in enumerate(variables): # i = row index (0=Pred, 1=Real, 2=Error)
-    for j, filter_mask in enumerate(midplane_filters): # j = column index (0=X, 1=Y, 2=Z)
+# --- Create ONE Figure for all plots ---
+fig = plt.figure(figsize=(15, 15)) # Adjust size as needed
+fig.suptitle('Combined Midplane Visualizations', fontsize=16)
 
-        # Select the correct subplot Axes object
-        ax = axes[i, j]
+# --- Nested Loops for Plotting ---
+# Outer loop: Variables (determines the row)
+for i, var in enumerate(variables):
 
-        # Determine coordinates based on midplane (column j)
-        if j == 0: # X midplane view
-            scatter_x, scatter_y = y[filter_mask], z[filter_mask]
-            plane_name = "Y-Z Plane"
-        elif j == 1: # Y midplane view
-            scatter_x, scatter_y = x[filter_mask], z[filter_mask]
-            plane_name = "X-Z Plane"
-        else:  # j == 2, Z midplane view
-            scatter_x, scatter_y = x[filter_mask], y[filter_mask]
-            plane_name = "X-Y Plane"
+    # Inner loop: Midplanes (determines the column, using original j index 0, 1, 2)
+    for j in range(num_midplanes):
 
-        # --- Plotting ---
-        # Use the variable data for the current row (i) for coloring
-        scatter = ax.scatter(scatter_x, scatter_y, c=var_data[filter_mask], cmap=cmap, s=2)
+        # Calculate subplot index (1-based)
+        subplot_index = i * num_midplanes + j + 1
 
-        # Set title indicating variable (row) and midplane view (column)
-        ax.set_title(f'{variable_names[i]}\n({midplane_names[j]} / {plane_name})')
+        # Add subplot to the single figure
+        ax = fig.add_subplot(num_variables, num_midplanes, subplot_index)
 
-        # Customize axes appearance
-        ax.set_aspect('equal', adjustable='box') # Use 'equal' aspect ratio
-        ax.axis('off') # Turn off axis lines, ticks, and labels
+        # --- Original Plotting Logic ---
+        if j == 0: # X midplane, plot Y vs Z
+            filter_mask = x_midplane_filter
+            scatter_x_coords = y[filter_mask]
+            scatter_y_coords = z[filter_mask]
+            plane_label = "X"
+        elif j == 1: # Y midplane, plot X vs Z
+            filter_mask = y_midplane_filter
+            scatter_x_coords = x[filter_mask]
+            scatter_y_coords = z[filter_mask]
+            plane_label = "Y"
+        else:  # j == 2: Z midplane, plot X vs Y
+            filter_mask = z_midplane_filter
+            scatter_x_coords = x[filter_mask]
+            scatter_y_coords = y[filter_mask]
+            plane_label = "Z"
 
-        # Add a colorbar specific to this subplot
+        scalar_values = var[filter_mask]
+
+        # Using your exact scatter call and axis settings
+        scatter = ax.scatter(scatter_x_coords, scatter_y_coords, c=scalar_values, cmap=cmap, s=2)
+        ax.set_title(f'{variable_names[i]} - Midplane {plane_label}')
+        ax.axis('equal')
+        ax.axis('off')
+
+        # Adding a colorbar using your original method and padding
         divider = make_axes_locatable(ax)
         cax = divider.append_axes("right", size="5%", pad=0.05)
-        fig.colorbar(scatter, cax=cax) # Use fig.colorbar when working with subplots
+        plt.colorbar(scatter, cax=cax)
+        # --- End of Original Plotting Logic ---
 
-# --- Final Adjustments and Saving ---
-# Adjust layout to prevent overlapping titles/labels
-fig.tight_layout(pad=1.5) # Add some padding
 
-# Save the single figure
-plt.savefig(images_path + 'Permeability_fit.png', dpi=300) # Added dpi for better resolution
+# --- Final Adjustments and Output ---
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 
-# Display the figure
+# Save the single figure - Using simple string concatenation for the path
+# *** ENSURE images_path DIRECTORY EXISTS BEFORE RUNNING ***
+save_filename = images_path + 'Combined_Midplanes_Final.png' # Construct path as likely intended in original
+plt.savefig(save_filename, dpi=150)
+print(f"Saved combined figure: {save_filename}")
+
+# Show the figure
 plt.show()
+
+print("Finished generating combined plot.")
 
 

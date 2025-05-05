@@ -798,3 +798,26 @@ def find_package_directory(package_name: str = 'instant_aiv') -> str | None:
 
     return None
 
+from scipy.spatial import cKDTree
+from sklearn.cluster import DBSCAN
+def remove_overlapping_points(base_data, remove_data, tolerance, chunk_size=1000):
+    base_coords = base_data[:, 1:4]  # Assuming x, y, z are columns 1, 2, 3
+    tree_base = cKDTree(base_coords)
+
+    indices_to_remove = set()
+    num_chunks = int(np.ceil(remove_data.shape[0] / chunk_size))
+
+    for i in tqdm.tqdm(range(num_chunks)):
+        start_idx = i * chunk_size
+        end_idx = min((i + 1) * chunk_size, remove_data.shape[0])
+        chunk_remove_coords = remove_data[start_idx:end_idx, 1:4]
+
+        indices = tree_base.query_ball_point(chunk_remove_coords, r=tolerance)
+        for sublist in indices:
+            indices_to_remove.update(sublist)
+
+    filtered_base_data = np.delete(base_data, list(indices_to_remove), axis=0)
+    indices_txyzc_C=list(indices_to_remove)
+    all_points=np.arange(len(base_data))
+    indices_txyzc = np.setdiff1d(all_points, indices_txyzc_C)   
+    return indices_txyzc
