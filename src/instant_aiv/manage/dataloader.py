@@ -774,7 +774,7 @@ def T11(x):
     return 1024*x**11-2816*x**9+2816*x**7-1232*x**5+220*x**3-11*x
 
 
-def find_package_directory(package_name: str = 'instant_aiv') -> str | None:
+def find_package_directory(package_name: str = 'instant_aiv'):
     """
     Finds and returns the installation directory path of a given package (simplified).
 
