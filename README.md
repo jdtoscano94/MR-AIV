@@ -134,7 +134,7 @@ The dataset used for the examples and analyses in this project is hosted on Zeno
 
 * **Download Link:** [Dataset on Zenodo](https://zenodo.org/uploads/15345393?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImFhODQ3YTFhLTU5YTAtNDdjNy1iYWQ2LWZmMGY2MDI3NTU0NCIsImRhdGEiOnt9LCJyYW5kb20iOiI4ZTgwMWM2ZjRmMTdlYzdkNDkxOWU2ZWFlYzllYzJiMCJ9.T8PxIlIKta2tifGYk3hp-pnj-GsWHo-l35ryOHduuIgMoR5UHz35NasuRpl8_Nozzo8vxsaU97QFXkJKHGyJew)
 
-Please download the dataset from the link above. It is expected to be a `.zip` file (e.g., `Data.zip`).
+Please download `Data.zip` from the link above.
 
 ### 2. Prepare the Data Directory
 
