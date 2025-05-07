@@ -58,7 +58,7 @@ parser.add_argument('--Run_MODE'   , type=str  , default='Train')
 parser.add_argument('--use_RBA'    , type=bool , default=True)
 parser.add_argument('--batch_size' , type=int  , default=10000)
 parser.add_argument('--num_gsteps' , type=int  , default=500*(10**3))
-parser.add_argument('--Name' , type=str  , default='Smooth')
+parser.add_argument('--Name' , type=str  , default='Init_K')
 parser.add_argument('--normalization' , type=str  , default='chebyshev5')
 parser.add_argument('--Equal_Batch' , type=bool  , default=True)
 parser.add_argument('--optimizer' , type=str  , default='AdamW')
@@ -436,6 +436,7 @@ Data=np.hstack((t[:,None],
 print(Data.shape)
 print(Data.min(0))
 print(Data.max(0))
+offset=offset+np.log(10)
 
 # %%
 log_K2=-log_K
@@ -819,20 +820,20 @@ print(norm_fn)
 
 # %%
 file_details={
-    'path':result_path,
+    'path':f'/Results/{Run_type}/{dataset_name}/General/',
     'name':dataset_name,
     'M1':M1,
     'M2':M2,
+    'layers':layers,
     'lb_all':lb_k,
     'ub_all':ub_k,
     'off_set':offset,
     'k_char0':k_char,
-    'offset_k':offset,
 }
 
 # %%
 print(file_details)
-save_file_details=result_path+'Permeability_Details.pkl'
+save_file_details=project_root+'Results/Permeability_Details.pkl'
 with open(save_file_details, 'wb') as f:
     pickle.dump(file_details, f)
 print(save_file_details)
@@ -851,9 +852,6 @@ plt.show()
 # # Plots
 
 # %%
-k_char=1e-12
-
-# %%
 key='GT'
 K_fx    = K_model(params)
 # Further computations for errors if any
@@ -866,71 +864,10 @@ K_pred = k_char*np.exp(K_pred_log+offset)
 K_real =  k_char*np.exp(K_real_log+offset)
 error_K = np.abs(K_pred-K_real)
 RL2_K = relative_error2(K_pred, K_real)
+print(K_pred.min(),K_pred.max())
 print(RL2_K)
 
 # %%
-print(dataset[key].min(0))
-print(dataset[key].max(0))
-
-# %%
-t,x, y, z= dataset[key][:,0], dataset[key][:,1], dataset[key][:,2], dataset[key][:,3]
-# Calculate midplane values
-x_midplane = np.median(x)
-y_midplane = np.median(y)
-z_midplane = np.median(z)
-
-tolerance = 0.1  # Adjust based on your dataset's spread
-
-# Define filters for each midplane
-x_midplane_filter = np.abs(x - x_midplane) <= tolerance
-y_midplane_filter = np.abs(y - y_midplane) <= tolerance
-z_midplane_filter = np.abs(z - z_midplane) <= tolerance
-
-# Prepare for visualization
-
-# Variables for plotting
-variables = [np.log10(K_pred),np.log10(K_real),np.log10(np.abs(K_pred-K_real))/np.log10(K_real)]  # Use the scalar field for coloring
-variable_names = ['log(K)-Pred','log(K)-Real','log(K)-Error','K-Real','K-Pred','K-Error']
-
-# Visualization
-for i, var in enumerate(variables):
-    fig = plt.figure(figsize=(12, 8))  # Adjust size as needed
-
-    for j in range(3):
-        ax = fig.add_subplot(1, 3, j + 1)
-        if j == 0:
-            filter_mask = x_midplane_filter
-            scatter_x, scatter_y = y[filter_mask], z[filter_mask]
-            xlabel, ylabel = 'Y', 'Z'
-        elif j == 1:
-            filter_mask = y_midplane_filter
-            scatter_x, scatter_y = x[filter_mask], z[filter_mask]
-            xlabel, ylabel = 'X', 'Z'
-        else:  # j == 2
-            filter_mask = z_midplane_filter
-            scatter_x, scatter_y = x[filter_mask], y[filter_mask]
-            xlabel, ylabel = 'X', 'Y' 
-
-        # Use the scalar field for coloring
-        scatter = ax.scatter(scatter_x, scatter_y, c=var[filter_mask], cmap=cmap, s=2)
-        ax.set_title(f'{variable_names[i]} -{["X", "Y", "Z"][j]}')
-        #ax.set_xlabel(xlabel)
-        #ax.set_ylabel(ylabel)
-        ax.axis('equal')
-        ax.axis('off')  # Change to 'off' if you prefer no axis
-
-        # Adding a colorbar to each subplot
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        plt.colorbar(scatter, cax=cax)
-
-plt.tight_layout()
-plt.savefig(images_path+'Final_results.png')
-plt.show()
-
-
-
-# Extract data
 t, x, y, z = dataset[key][:,0], dataset[key][:,1], dataset[key][:,2], dataset[key][:,3]
 
 # Calculate midplane values
@@ -1021,5 +958,6 @@ print(f"Saved combined figure: {save_filename}")
 plt.show()
 
 print("Finished generating combined plot.")
+
 
 

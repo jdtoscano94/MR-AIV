@@ -233,7 +233,7 @@ print(f'The model will be: {pinn_fn}')
 # ### Load Permeability Model
 
 # %%
-save_file_details=project_root+'Results/Permeability/Permeability_Init_K/General/Permeability_Details.pkl' # This file should be generated in the previous step by running Init_K.py
+save_file_details=project_root+'Results/Permeability_Details.pkl'# This file should be generated in the previous step by running Init_K.py
 with open(save_file_details, 'rb') as f:
     file_details_loaded = pickle.load(f)
 print(file_details_loaded.keys())
@@ -259,7 +259,7 @@ Norm_fn['k']=Encode_Chebysev_5
 
 
 k_char0=file_details_loaded['k_char0']
-k_params_file=file_details_loaded['path']
+k_params_file=project_root+file_details_loaded['path']
 dataset_k=file_details_loaded['name']
 loaded_params_k = load_params_dict(k_params_file, dataset_k, layers_k, initialization,type='Final',Use_ResNet=Use_ResNet) 
 print('Parameters loaded from file')
@@ -1588,7 +1588,7 @@ print(M1_all)
 print(M2_all)
 
 file_details={
-    'path':result_path,
+    'path':f'/Results/{Run_type}/{dataset_name}/General/',
     'name':dataset_name,
     'layers':layers,
     'lb_all':lb_all,
@@ -1598,15 +1598,13 @@ file_details={
     'offset_k':offset_k,
     'p_scale':p_scale,
     'M1':M1_all,
-    'M2':M2_all,
-    'cor_fact_raw':cor_fact_raw
+    'M2':M2_all
 }
-print(file_details)
-save_file_details=result_path+'Pre_training_Details.pkl'
+save_file_details=project_root+'Results/Initialization_Details_Real.pkl'
 with open(save_file_details, 'wb') as f:
     pickle.dump(file_details, f)
 print(save_file_details)
-
+print(file_details)
 
 # %% [markdown]
 # ## Losses and Errors

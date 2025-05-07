@@ -14,7 +14,7 @@ cd /users/jdtoscan/data/jdtoscan/References/MR-AVI/Brain/Permeability/|| exit
 
 nvidia-smi
 source /gpfs/runtime/opt/anaconda/2020.02/etc/profile.d/conda.sh
-conda activate instant_aiv_test_env
+conda activate Instant_AIV_39
 
 rm -rf ./__pycache__/
 
