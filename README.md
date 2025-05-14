@@ -347,17 +347,6 @@ Make sure to run these steps in the prescribed order, as some steps depend on th
   publisher={The Royal Society}
 }
 
-@article{toscano2025aivt,
-  title={AIVT: Inference of turbulent thermal convection from measured 3D velocity data by physics-informed Kolmogorov-Arnold networks},
-  author={Toscano, Juan Diego and K{\"a}ufer, Theo and Wang, Zhibo and Maxey, Martin and Cierpka, Christian and Karniadakis, George Em},
-  journal={Science Advances},
-  volume={11},
-  number={19},
-  pages={eads5236},
-  year={2025},
-  publisher={American Association for the Advancement of Science}
-}
-
 @article{shukla2024comprehensive,
   title={A comprehensive and fair comparison between mlp and kan representations for differential equations and operator networks},
   author={Shukla, Khemraj and Toscano, Juan Diego and Wang, Zhicheng and Zou, Zongren and Karniadakis, George Em},
@@ -369,9 +358,34 @@ Make sure to run these steps in the prescribed order, as some steps depend on th
 }
 
 
+
 @article{toscano2024kkans,
   title={KKANs: Kurkova-Kolmogorov-Arnold Networks and Their Learning Dynamics},
   author={Toscano, Juan Diego and Wang, Li-Lian and Karniadakis, George Em},
   journal={arXiv preprint arXiv:2412.16738},
   year={2024}
 }
+
+
+@article{toscano2025pinns,
+  title={From pinns to pikans: Recent advances in physics-informed machine learning},
+  author={Toscano, Juan Diego and Oommen, Vivek and Varghese, Alan John and Zou, Zongren and Ahmadi Daryakenari, Nazanin and Wu, Chenxi and Karniadakis, George Em},
+  journal={Machine Learning for Computational Science and Engineering},
+  volume={1},
+  number={1},
+  pages={1--43},
+  year={2025},
+  publisher={Springer}
+}
+
+@article{toscano2025aivt,
+  title={AIVT: Inference of turbulent thermal convection from measured 3D velocity data by physics-informed Kolmogorov-Arnold networks},
+  author={Toscano, Juan Diego and K{\"a}ufer, Theo and Wang, Zhibo and Maxey, Martin and Cierpka, Christian and Karniadakis, George Em},
+  journal={Science Advances},
+  volume={11},
+  number={19},
+  pages={eads5236},
+  year={2025},
+  publisher={American Association for the Advancement of Science}
+}
+
