@@ -269,8 +269,8 @@ This involves initializing and then training the networks for pressure and conce
     # Navigate to the results directory for real data
     cd ../Results/Real/ 
     # Ensure you have Jupyter installed and the AIV_Conda kernel activated (see Installation Step 5)
-    jupyter notebook Visualize.ipynb 
-    # Or use jupyter lab Visualize.ipynb
+    jupyter notebook Visualizations.ipynb 
+    # Or use jupyter lab Visualizations.ipynb
     ```
     After exploring, navigate back to the project root:
     ```bash
@@ -306,8 +306,8 @@ This involves initializing and then training the networks using synthetic data.
     # Navigate to the results directory for synthetic data
     cd ../Results/Synthetic/
     # Ensure you have Jupyter installed and the AIV_Conda kernel activated
-    jupyter notebook Visualize.ipynb
-    # Or use jupyter lab Visualize.ipynb
+    jupyter notebook Visualizations.ipynb
+    # Or use jupyter lab Visualizations.ipynb
     ```
     After exploring, navigate back to the project root:
     ```bash
