@@ -175,16 +175,35 @@ Once downloaded, the dataset needs to be placed and unzipped within your project
     ```
     Data/
     ├── Permeabilities/
-    │   └── Mid_smooth.mat
+    │   ├── M1.mat
+    │   ├── M2.mat
+    │   ├── M3.mat
+    │   ├── M4.mat
+    │   └── M5.mat
     ├── Real_Data/
-    │   ├── Front_Tracking.mat
-    │   └── M1_concentration.mat
+    │   ├── M1/
+    │   │   ├── Front_Tracking.mat
+    │   │   └── M1_concentration.mat
+    │   ├── M2/
+    │   │   ├── Front_Tracking.mat
+    │   │   └── M2_concentration.mat
+    │   ├── M3/
+    │   │   ├── Front_Tracking.mat
+    │   │   └── M3_concentration.mat
+    │   ├── M4/
+    │   │   ├── Front_Tracking.mat
+    │   │   └── M4_concentration.mat
+    │   └── M5/
+    │       ├── Front_Tracking.mat
+    │       └── M5_concentration.mat
     └── Synthetic_Data/
         ├── BC_inlet.csv
         ├── BC_noflow.csv
         ├── BC_outlet2.csv
         ├── BC_outlet3.csv
-        └── Realistic.csv
+        ├── Realistic.csv
+        ├── Sharp.csv
+        └── Smooth.csv
     ```
 
 This structure is essential for the scripts to locate and use the data correctly.
@@ -328,11 +347,15 @@ Make sure to run these steps in the prescribed order, as some steps depend on th
   publisher={The Royal Society}
 }
 
-@article{toscano2024inferring,
-  title={Inferring turbulent velocity and temperature fields and their statistics from Lagrangian velocity measurements using physics-informed Kolmogorov-Arnold Networks},
+@article{toscano2025aivt,
+  title={AIVT: Inference of turbulent thermal convection from measured 3D velocity data by physics-informed Kolmogorov-Arnold networks},
   author={Toscano, Juan Diego and K{\"a}ufer, Theo and Wang, Zhibo and Maxey, Martin and Cierpka, Christian and Karniadakis, George Em},
-  journal={arXiv preprint arXiv:2407.15727},
-  year={2024}
+  journal={Science Advances},
+  volume={11},
+  number={19},
+  pages={eads5236},
+  year={2025},
+  publisher={American Association for the Advancement of Science}
 }
 
 @article{shukla2024comprehensive,
