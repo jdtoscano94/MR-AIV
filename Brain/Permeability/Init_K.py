@@ -142,7 +142,7 @@ dataset_name = f'{Details}'
 
 # %%
 project_root = find_package_directory() # if error please define the root package directly (e.g. project_root='/users/.../' )
-data_path=project_root+'/Data/Permeabilities/Mid_smooth.mat'
+data_path=project_root+'/Data/Permeabilities/M1.mat'
 save_path=project_root+f'/Results/{Run_type}/'
 big_data_path=save_path
 print(f'Analizing:{data_path}')
