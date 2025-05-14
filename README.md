@@ -1,6 +1,7 @@
 # Magnetic Resonance Artificial Intelligence Velocimetry (MR-AIV)
 
-This repository provides the code implementations for published and upcoming research on Magnetic Resonance Artificial Intelligence Velocimetry (MR-AIV), a technique to infer *in vivo* brain-wide velocity fields from murine Dynamic Contrast-Enhanced Magnetic Resonance Imaging (DCE-MRI) data. This repository will be continuously updated with new research developments and resources.
+This repository provides the code implementations for published and upcoming research on Magnetic Resonance Artificial Intelligence Velocimetry (MR-AIV), a technique to infer *in vivo* brain-wide velocity fields from murine Dynamic Contrast-Enhanced Magnetic Resonance Imaging (DCE-MRI) data. We also include the trained model parameters. This repository will be continuously updated with new research developments and resources.
+
 
 ## Table of Contents
 
@@ -37,9 +38,11 @@ Additional papers and updates will be added to this repository as they become av
 
 ## Prerequisites
 
-* Python: Version >= 3.9 and <= 3.11 is recommended.
-* NVIDIA GPU: Required for running the models, along with a compatible CUDA toolkit.
-* Conda: Recommended for managing Python environments and dependencies.
+* **Python**: Recommended version is > 3.9.
+* **NVIDIA GPU**: Required to run the models, along with a compatible CUDA toolkit.
+* **Conda**: Recommended for managing Python environments and dependencies.
+* **Important**: The code is compatible with any version of JAX ≥ 0.3.23 and any version of NumPy. However, the pre-trained model files were generated with `numpy<2.0`, and may not load correctly with newer NumPy versions. If you're using `numpy≥2.0`, you will need to retrain the models — the newly generated files will be compatible with your current setup.
+
 
 ## Installation
 
