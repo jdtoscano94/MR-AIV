@@ -69,7 +69,7 @@ mpl.rcParams['font.size'] = 20
 parser = argparse.ArgumentParser(description='Tunning_parameters')
 parser.add_argument('--run_type'   , type=str  , default='Real_M1')
 parser.add_argument('--mode'       , type=str  , default='PINN')
-parser.add_argument('--Run_MODE'   , type=str  , default='Train')
+parser.add_argument('--Run_MODE'   , type=str  , default='Plots')
 
 parser.add_argument('--num_layer'  , type=int  , default=8)
 parser.add_argument('--width_layer', type=int  , default=200)
@@ -180,9 +180,8 @@ dataset_name = f'{Details}'
 
 # %%
 project_root = find_package_directory() # if error please define the root package directly (e.g. project_root='/users/.../' )
-data_path=project_root+'/Data/Real_Data/M1_concentration.mat'
-path_vels=project_root+"/Data/Real_Data/Front_Tracking.mat"
-
+data_path=project_root+'/Data/Real_Data/M1/M1_concentration.mat'
+path_vels=project_root+"/Data/Real_Data/M1/Front_Tracking.mat"
 save_path=project_root+f'/Results/{Run_type}/'
 big_data_path=save_path
 print(f'Analizing:{data_path}')
