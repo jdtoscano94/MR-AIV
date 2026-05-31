@@ -23,9 +23,6 @@ If you find this content useful please consider citing our work as follows:
   publisher={American Association for the Advancement of Science}
 }
 ```
-```
-
-
 
 ## Table of Contents
 
