@@ -2,6 +2,30 @@
 
 This repository provides the code implementations for published and upcoming research on Magnetic Resonance Artificial Intelligence Velocimetry (MR-AIV), a technique to infer *in vivo* brain-wide velocity fields from murine Dynamic Contrast-Enhanced Magnetic Resonance Imaging (DCE-MRI) data. We also include the trained model parameters. This repository will be continuously updated with new research developments and resources.
 
+## Papers
+
+Currently, this repository contains the code for the following paper:
+
+1. Toscano, J. D., Guo, Y., Wang, Z., Vaezi, M., Mori, Y., Karniadakis, G. E., ... & Kelley, D. H. (2026). MR-AIV reveals in vivo brain-wide fluid flow with physics-informed AI. Science Advances, 12(22), eaeb0404.
+   **Link:** [Science Advances DOI: 10.1126/sciadv.aeb0404](https://www.science.org/doi/10.1126/sciadv.aeb0404)
+
+If you find this content useful please consider citing our work as follows:
+
+```bibtex
+@article{toscano2026mr,
+  title={MR-AIV reveals in vivo brain-wide fluid flow with physics-informed AI},
+  author={Toscano, Juan Diego and Guo, Yisen and Wang, Zhibo and Vaezi, Mohammad and Mori, Yuki and Karniadakis, George Em and Boster, Kimberly AS and Kelley, Douglas H},
+  journal={Science Advances},
+  volume={12},
+  number={22},
+  pages={eaeb0404},
+  year={2026},
+  publisher={American Association for the Advancement of Science}
+}
+```
+```
+
+
 
 ## Table of Contents
 
